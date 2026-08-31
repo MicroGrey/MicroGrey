@@ -1,0 +1,28 @@
+name: Generate Profile Cards
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/profile-cards.yml
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: vn7n24fzkq/github-profile-summary-cards@release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          USERNAME: ${{ github.repository_owner }}
+          UTC_OFFSET: 8
+          ANIMATION: load
+          DURATION: 2
